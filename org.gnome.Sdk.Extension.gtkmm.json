@@ -1,0 +1,131 @@
+{
+    "id": "org.gnome.Sdk.Extension.gtkmm",
+    "branch": "3.30",
+    "runtime": "org.gnome.Sdk",
+    "build-extension": true,
+    "sdk": "org.gnome.Sdk",
+    "runtime-version": "3.30",
+    "sdk-extensions": [],
+    "separate-locales": false,
+    "appstream-compose": false,
+    "cleanup": [ ],
+    "build-options" : {
+        "cflags": "-O2 -g",
+        "cxxflags": "-O2 -g",
+        "prefix": "/usr/lib/sdk/gtkmm",
+        "env": {
+            "V": "1"
+        }
+    },
+    "modules": [
+        {
+            "name" : "mm-common",
+            "cleanup" : [
+                "/"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "http://ftp.gnome.org/pub/GNOME/sources/mm-common/0.9/mm-common-0.9.10.tar.xz",
+                    "sha256" : "16c0e2bc196b67fbc145edaecb5dbe5818386504fe5703de27002d77140fa217"
+                }
+            ]
+        },
+        {
+            "name" : "sigc++",
+            "config-opts" : [
+                "--disable-documentation"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "http://ftp.gnome.org/pub/GNOME/sources/libsigc++/2.9/libsigc++-2.9.3.tar.xz",
+                    "sha256" : "0bf9b301ad6198c550986c51150a646df198e8d1d235270c16486b0dda30097f"
+                }
+            ]
+        },
+        {
+            "name" : "glibmm",
+            "config-opts" : [
+                "--disable-documentation"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "http://ftp.gnome.org/pub/GNOME/sources/glibmm/2.58/glibmm-2.58.0.tar.xz",
+                    "sha256" : "d34189237b99e88228e6f557f7d6e62f767fe356f395a244f5ad0e486254b645"
+                }
+            ]
+        },
+        {
+            "name" : "cairomm",
+            "config-opts" : [
+                "--disable-documentation"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "http://cairographics.org/releases/cairomm-1.12.0.tar.gz",
+                    "sha256" : "50435aec6fdd976934b791e808993160113ad19ca53a5634a9b64ccbe55874cc"
+                }
+            ]
+        },
+        {
+            "name" : "pangomm",
+            "config-opts" : [
+                "--disable-documentation"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "http://ftp.gnome.org/pub/GNOME/sources/pangomm/2.40/pangomm-2.40.1.tar.xz",
+                    "sha256" : "9762ee2a2d5781be6797448d4dd2383ce14907159b30bc12bf6b08e7227be3af"
+                }
+            ]
+        },
+        {
+            "name" : "atkmm",
+            "config-opts" : [
+                "--disable-documentation"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "http://ftp.gnome.org/pub/GNOME/sources/atkmm/2.24/atkmm-2.24.2.tar.xz",
+                    "sha256" : "ff95385759e2af23828d4056356f25376cfabc41e690ac1df055371537e458bd"
+                }
+            ]
+        },
+        {
+            "name" : "gtkmm",
+            "config-opts" : [
+                "--disable-documentation"
+            ],
+            "build-options" : {
+                "cxxflags" : "-O2 -g -std=c++11"
+            },
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "http://ftp.gnome.org/pub/GNOME/sources/gtkmm/3.24/gtkmm-3.24.0.tar.xz",
+                    "sha256" : "cf5fc92805e581c8303e08d54519457ba07f15b766e9b1edde4862993ac1aa43"
+                }
+            ]
+        },
+        {
+            "name": "appdata",
+            "buildsystem": "simple",
+            "build-commands": [
+                "mkdir -p ${FLATPAK_DEST}/share/appdata",
+                "cp org.gnome.Sdk.Extension.gtkmm.appdata.xml ${FLATPAK_DEST}/share/appdata",
+                "appstream-compose  --basename=org.gnome.Sdk.Extension.gtkmm --prefix=${FLATPAK_DEST} --origin=flatpak org.gnome.Sdk.Extension.gtkmm"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "path": "org.gnome.Sdk.Extension.gtkmm.appdata.xml"
+                }
+            ]
+        }
+    ]
+}
