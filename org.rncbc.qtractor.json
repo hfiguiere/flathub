@@ -1,0 +1,330 @@
+{
+  "app-id": "org.rncbc.qtractor",
+  "runtime": "org.kde.Platform",
+  "runtime-version": "5.12",
+  "sdk": "org.kde.Sdk",
+  "command": "qtractor",
+  "rename-desktop-file": "qtractor.desktop",
+  "rename-icon": "qtractor",
+  "finish-args": [
+    /* X11 + XShm access */
+    "--share=ipc",
+    "--socket=x11",
+    /* Wayland */
+    "--socket=wayland",
+    /* Note playback */
+    "--socket=pulseaudio",
+    /* MIDI */
+    "--device=all",
+    /* Allow loading, saving files from anywhere (portals don’t work yet) */
+    "--filesystem=home",
+    /* Allow other instances to see lockfiles */
+    "--env=TMPDIR=/var/tmp",
+    "--env=QT_AUTO_SCREEN_SCALE_FACTOR=1"
+  ],
+  "cleanup": [
+    "/share/man",
+    "/share/doc",
+    "/share/gtk-doc",
+    "*.la"
+  ],
+  "modules": [
+    {
+      "name": "libmad",
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://sourceforge.net/projects/mad/files/libmad/0.15.1b/libmad-0.15.1b.tar.gz",
+          "sha256": "bbfac3ed6bfbc2823d3775ebb931087371e142bb0e9bb1bee51a76a6e0078690"
+        },
+        /* Patches from Arch Linux */
+        {
+          "type": "patch",
+          "path": "libmad/libmad.patch"
+        },
+        /* Patches from Debian */
+        {
+          "type": "patch",
+          "path": "libmad/amd64-64bit.diff"
+        },
+        {
+          "type": "patch",
+          "path": "libmad/frame_length.diff"
+        },
+        {
+          "type": "patch",
+          "path": "libmad/optimize.diff"
+        },
+        {
+          "type": "patch",
+          "path": "libmad/Provide-Thumb-2-alternative-code-for-MAD_F_MLN.diff"
+        },
+        {
+          "type": "patch",
+          "path": "libmad/libmad.thumb.diff"
+        },
+        {
+          "type": "patch",
+          "path": "libmad/mips-gcc4.4.diff"
+        },
+        {
+          "type": "shell",
+          "commands": ["cp /usr/share/gnu-config/config.{guess,sub} ."]
+        },
+        {
+          "type": "script",
+          "commands": ["autoconf"],
+          "dest-filename": "autogen.sh"
+        }
+      ],
+      "rm-configure": true
+    },
+    {
+      "name": "ladspa",
+      "no-autogen": true,
+      "subdir": "src",
+      "make-install-args": [
+        "INSTALL_PLUGINS_DIR=/app/lib/ladspa",
+        "INSTALL_INCLUDE_DIR=/app/include",
+        "INSTALL_BINARY_DIR=/app/bin"
+      ],
+      "cleanup": [
+        "/bin"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "http://www.ladspa.org/download/ladspa_sdk_1.15.tgz",
+          "sha256": "4229959b09d20c88c8c86f4aa76427843011705df22d9c28b38359fd1829fded"
+        }
+      ]
+    },
+    {
+      "name": "jack2",
+      "buildsystem": "simple",
+      "build-commands": [
+        "./waf configure --prefix=/app --htmldir=/app/share/doc/jack/ --freebob=no --classic",
+        "./waf build -j $FLATPAK_BUILDER_N_JOBS",
+        "./waf install"
+      ],
+      "cleanup": [
+        "/bin",
+        "/share",
+        "/lib/jack",
+        "/lib/libjackserver.so*"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/jackaudio/jack2/releases/download/v1.9.12/jack2-1.9.12.tar.gz",
+          "sha256": "deefe2f936dc32f59ad3cef7e37276c2035ef8a024ca92118f35c9a292272e33"
+        }
+      ]
+    },
+    {
+      "name": "liblo",
+      "sources": [
+        {
+          "type": "archive",
+          "url": "http://download.sf.net/sourceforge/liblo/liblo-0.29.tar.gz",
+          "sha256": "ace1b4e234091425c150261d1ca7070cece48ee3c228a5612d048116d864c06a"
+        }
+      ]
+    },
+    {
+      "name": "dssi",
+      "sources": [
+        {
+          "type": "archive",
+          "url": "http://download.sf.net/sourceforge/dssi/dssi-1.1.1.tar.gz",
+          "sha256": "f2c82b073a947c8255284249097667f9b14e660bf86186f3fcd3b3b3e087814e"
+        }
+      ]
+    },
+    {
+      "name": "lv2",
+      "buildsystem": "simple",
+      "build-commands": [
+        "python2 ./waf configure --prefix=/app --lv2dir=/app/lib/lv2",
+        "python2 ./waf build -j $FLATPAK_BUILDER_N_JOBS",
+        "python2 ./waf install"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "http://lv2plug.in/spec/lv2-1.14.0.tar.bz2",
+          "sha256": "b8052683894c04efd748c81b95dd065d274d4e856c8b9e58b7c3da3db4e71d32"
+        }
+      ],
+      "post-install": [
+        "install -Dm644 -t /app/share/licenses/lv2 COPYING"
+      ],
+      "cleanup": [
+        "/bin",
+        "/share/lv2specgen"
+      ]
+    },
+    {
+      "name": "lilv",
+      "buildsystem": "simple",
+      "build-commands": [
+        "python3 ./waf configure --prefix=/app",
+        "python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS",
+        "python3 ./waf install"
+      ],
+      "modules": [
+        {
+          "name": "serd",
+          "buildsystem": "simple",
+          "build-commands": [
+            "python3 ./waf configure --prefix=/app",
+            "python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS",
+            "python3 ./waf install"
+          ],
+          "sources": [
+            {
+              "type": "archive",
+              "url": "https://download.drobilla.net/serd-0.30.0.tar.bz2",
+              "sha256": "6efb0efa5c2155e6bbac941cddeeabb7ed26d70a57d24178894ff169d8f6cefb"
+            }
+          ],
+          "post-install": [
+            "install -Dm644 -t /app/share/licenses/serd COPYING"
+          ],
+          "cleanup": [
+            "/bin",
+            "/share/man"
+          ]
+        },
+        {
+          "name": "sord",
+          "buildsystem": "simple",
+          "build-commands": [
+            "python3 ./waf configure --prefix=/app",
+            "python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS",
+            "python3 ./waf install"
+          ],
+          "sources": [
+            {
+              "type": "archive",
+              "url": "https://download.drobilla.net/sord-0.16.2.tar.bz2",
+              "sha256": "09f51174dd8f3efbd95f44f0bb0b165f08e066e052d40095de59de787987da8d"
+            }
+          ],
+          "post-install": [
+            "install -Dm644 -t /app/share/licenses/sord COPYING"
+          ],
+          "cleanup": [
+            "/bin",
+            "/share/man"
+          ]
+        },
+        {
+          "name": "sratom",
+          "buildsystem": "simple",
+          "build-commands": [
+            "python3 ./waf configure --prefix=/app",
+            "python3 ./waf build -j $FLATPAK_BUILDER_N_JOBS",
+            "python3 ./waf install"
+          ],
+          "sources": [
+            {
+              "type": "archive",
+              "url": "https://download.drobilla.net/sratom-0.6.2.tar.bz2",
+              "sha256": "0a514a55d6b6cb7b5d6f32d1dcb78a1e6e54537fa22fce533e4ef6adf240e853"
+            }
+          ],
+          "post-install": [
+            "install -Dm644 -t /app/share/licenses/sratom COPYING"
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://download.drobilla.net/lilv-0.24.4.tar.bz2",
+          "sha256": "c33b84b7a6e8e8fffb412fbcd6f69e59ca297ef3e29d829249b4ccc94f634438"
+        }
+      ],
+      "post-install": [
+        "install -Dm644 -t /app/share/licenses/lilv COPYING"
+      ],
+      "cleanup": [
+        "/bin",
+        "/etc",
+        "/share/man"
+      ]
+    },
+    {
+      "name": "rubberband",
+      "build-options": {
+        "env": {
+          "Vamp_CFLAGS": " ",
+          "Vamp_LIBS": " "
+        }
+      },
+      "modules": [
+        {
+          "name": "vamp-plugin-sdk",
+          "sources": [
+            {
+              "type": "git",
+              "url": "https://github.com/c4dm/vamp-plugin-sdk",
+              "tag": "vamp-plugin-sdk-v2.7.1",
+              "commit": "10be490c9902d874e9d772d94bf91448303d9b06"
+            }
+          ],
+          "post-install": [
+            "install -Dm644 -t /app/share/licenses/vamp-plugin-sdk COPYING"
+          ],
+          "cleanup": [
+            "/bin"
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://bitbucket.org/breakfastquay/rubberband/get/v1.8.1.tar.gz",
+          "sha256": "9bea85fc2e4d8c3044e3b87c6ecff4282a61a888bafe0ce07cee11fc0ea68f16"
+        }
+      ],
+      "post-install": [
+        "install -Dm644 -t /app/share/licenses/rubberband COPYING"
+      ],
+      "cleanup": [
+        "/share/ladspa"
+      ]
+    },
+    {
+      "name": "qtractor",
+      "config-opts": [
+        "QMAKE_CFLAGS_ISYSTEM="
+      ],
+      "build-options": {
+        "env": [
+          "LADSPA_PATH=/app/lib/ladspa"
+        ]
+      },
+      "post-install": [
+        "rm -f /app/share/appdata/qtractor.appdata.xml",
+        "install -Dm644 -t /app/share/metainfo org.rncbc.qtractor.appdata.xml"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "http://downloads.sourceforge.net/qtractor/qtractor-0.9.4.tar.gz",
+          "sha256": "eff57161c199449d6912a996ba0009895ee35de158fe75177c35858548feb917"
+        },
+        {
+          "type": "file",
+          "path": "org.rncbc.qtractor.appdata.xml"
+        },
+        {
+          "type": "patch",
+          "path": "qtractor-configure.patch"
+        }
+      ]
+    }
+  ]
+}

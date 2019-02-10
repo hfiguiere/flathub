@@ -1,0 +1,13 @@
+--- qtractor/configure	2019-02-07 03:45:18.783388320 -0500
++++ qtractor/configure.new	2019-02-10 12:58:32.719051256 -0500
+@@ -5032,7 +5032,9 @@
+ if test -d $ac_qt_install_headers; then
+    CFLAGS="-I$ac_qt_install_headers $CFLAGS "
+    CPPFLAGS="-I$ac_qt_install_headers $CPPFLAGS"
+-   ac_incpath="$ac_qt_install_headers $ac_incpath"
++   if test X$ac_qt_install_headers != "X/usr/include"; then
++      ac_incpath="$ac_qt_install_headers $ac_incpath"
++   fi
+ fi
+ 
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking for Qt install libraries" >&5
