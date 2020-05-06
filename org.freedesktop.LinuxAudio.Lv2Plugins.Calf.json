@@ -1,5 +1,6 @@
 {
   "id": "org.freedesktop.LinuxAudio.Lv2Plugins.Calf",
+  "branch": "19.08",
   "runtime": "org.freedesktop.LinuxAudio.BaseExtension//19.08",
   "sdk": "org.freedesktop.Sdk//19.08",
   "build-extension": true,
@@ -17,10 +18,13 @@
   ],
   "modules": [
     "shared-modules/gtk2/gtk2.json",
-    "shared-modules/linux-audio/fluidsynth2.json",
+    "shared-modules/linux-audio/fluidsynth2-static.json",
     "shared-modules/linux-audio/lv2.json",
     {
       "name": "calf",
+      "build-options": {
+        "ldflags": "-lpulse-simple -lpulse -lasound -ldbus-1 -lSDL2 -lreadline -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 -lglib-2.0 "
+      },
       "config-opts": [
         "--with-lv2-dir=/app/extensions/Lv2Plugins/Calf/lv2"
       ],
