@@ -1,0 +1,49 @@
+diff --git a/swami.appdata.xml b/swami.appdata.xml
+index ceb8d7f..d728187 100644
+--- a/swami.appdata.xml
++++ b/swami.appdata.xml
+@@ -4,6 +4,8 @@
+  <id type="desktop">swami.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0</project_license>
++ <name>Swami</name>
++ <summary>Instrument editor application</summary>
+  <description>
+   <p>
+    SWAMI (Sampled Waveforms And Musical Instruments) is a collection
+@@ -23,12 +25,31 @@
+   </ul>
+  </description>
+  <screenshots>
+-  <screenshot type="default" width="800" height="600">http://www.swamiproject.org/Swami-screenshot1.png</screenshot>
+-  <screenshot width="800" height="600">http://www.swamiproject.org/Swami-screenshot2.png</screenshot>
+-  <screenshot width="800" height="600">http://www.swamiproject.org/Swami-screenshot3.png</screenshot>
+-  <screenshot width="800" height="600">http://www.swamiproject.org/Swami-screenshot4.png</screenshot>
++   <screenshot type="default">
++     <image>http://www.swamiproject.org/Swami-screenshot1.png</image>
++     <caption>Swami Audio Sample Editor</caption>
++   </screenshot>
++   <screenshot>
++     <image>http://www.swamiproject.org/Swami-screenshot2.png</image>
++     <caption>Swami Audio Loop Finder</caption>
++   </screenshot>
++   <screenshot>
++     <image>http://www.swamiproject.org/Swami-screenshot3.png</image>
++     <caption>Instrument Tuner</caption>
++   </screenshot>
++   <screenshot>
++     <image>http://www.swamiproject.org/Swami-screenshot4.png</image>
++     <caption>Note Velocity Editor</caption>
++   </screenshot>
+  </screenshots>
+  <url type="homepage">http://www.swamiproject.org</url>
+  <updatecontact>element@elementsofsound.org</updatecontact>
++ <content_rating type="oars-1.1" />
++ ​<launchable type="desktop-id">swami.desktop</launchable>
++ <releases>
++   <release version="2.2.1" date="2020-04-14">
++     <url>https://github.com/swami/swami/releases/tag/v2.2.1</url>
++   </release>
++ </releases>
+ </application>
+ 
