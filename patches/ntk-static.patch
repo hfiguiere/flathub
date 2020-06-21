@@ -1,0 +1,29 @@
+diff --git a/fluid/wscript b/fluid/wscript
+index ab6f898..8346c48 100644
+--- a/fluid/wscript
++++ b/fluid/wscript
+@@ -32,7 +32,7 @@ def build(bld):
+ ''',
+                  target='ntk-fluid',
+                  includes = [ '.', '../' ],
+-                 use = [ 'ntk_images_shared', 'ntk_shared' ],
++                 use = [ 'ntk_images_static', 'ntk_static' ],
+ 		 # FIXME: why is this now neccessary with new waf version?
+                  uselib = [
+  'LIBJPEG', 'LIBPNG', 'LIBZ', 'DL', 'M', 'PTHREAD' ,
+diff --git a/wscript b/wscript
+index 2b10dd8..beecdf5 100644
+--- a/wscript
++++ b/wscript
+@@ -505,8 +505,9 @@ src/Fl_Gl_Window.cxx
+     bld.program(
+ 	source = 'src/ntk-chtheme.cxx',
+ 	target = 'ntk-chtheme',
+-        includes = [ '.' ], 
+-        use = ['ntk_images_shared', 'ntk_shared'],
++        includes = [ '.' ],
++        use = ['ntk_images_static', 'ntk_static'],
++        uselib = [ 'X11', 'FONTCONFIG', 'XFT', 'CAIRO', 'LIBJPEG', 'LIBPNG', 'LIBZ', 'DL', 'M', 'PTHREAD' ],
+ 	install_path = "${BINDIR}" )
+ 
+     # bld( features = 'subst',

@@ -1,0 +1,22 @@
+--- zynsubfx-1/src/CMakeLists.txt	2019-02-23 10:43:37.000000000 -0500
++++ zynsubfx-1/src/CMakeLists.txt-new	2020-06-21 11:03:13.118678395 -0400
+@@ -411,7 +411,7 @@
+ 
+ 	message(STATUS ${NTK_LDFLAGS} ${NTK_IMAGES_LDFLAGS})
+ 
+-	set(GUI_LIBRARIES zynaddsubfx_gui ${NTK_LIBRARIES} ${NTK_IMAGES_LIBRARIES} ${OPENGL_LIBRARIES})
++	set(GUI_LIBRARIES zynaddsubfx_gui ${NTK_LIBRARIES} ${NTK_IMAGES_LIBRARIES} ${OPENGL_LIBRARIES} "-lfontconfig -lpng16 -ldl -lXft")
+ 
+     if(X11_FOUND AND X11_Xpm_FOUND)
+         set(GUI_LIBRARIES ${GUI_LIBRARIES} ${X11_LIBRARIES} -lXpm)
+--- zynsubfx/src/UI/CMakeLists.txt      2020-06-21 11:45:48.895022756 -0400
++++ zynsubfx/src/UI/CMakeLists.txt-new  2020-06-21 11:45:26.236850978 -0400
+@@ -41,7 +41,7 @@
+     install(TARGETS zynaddsubfx-ext-gui RUNTIME DESTINATION bin)
+ elseif(NtkGui)
+     add_executable(zynaddsubfx-ext-gui guimain.cpp)
+-    target_link_libraries(zynaddsubfx-ext-gui zynaddsubfx_gui ${NTK_LDFLAGS}
++    target_link_libraries(zynaddsubfx-ext-gui zynaddsubfx_gui ${NTK_LDFLAGS}  "-lfontconfig -lpng16 -ldl -lXft"
+         ${OPENGL_LIBRARIES} ${LIBLO_LIBRARIES} rtosc rtosc-cpp)
+     if(X11_FOUND AND X11_Xpm_FOUND)
+         add_definitions(-DHAS_X11=1)
