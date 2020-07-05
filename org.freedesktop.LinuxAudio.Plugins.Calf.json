@@ -1,15 +1,16 @@
 {
-  "id": "org.freedesktop.LinuxAudio.Lv2Plugins.Calf",
+  "id": "org.freedesktop.LinuxAudio.Plugins.Calf",
   "branch": "19.08",
   "runtime": "org.freedesktop.LinuxAudio.BaseExtension//19.08",
   "sdk": "org.freedesktop.Sdk//19.08",
   "build-extension": true,
   "appstream-compose": false,
+  "separate-locales": false,
   "build-options": {
-    "prepend-path": "/app/extensions/Lv2Plugins/Calf/bin",
-    "prepend-pkg-config-path": "/app/extensions/Lv2Plugins/Calf/lib/pkgconfig",
-    "prepend-ld-library-path": "/app/extensions/Lv2Plugins/Calf/lib",
-    "prefix": "/app/extensions/Lv2Plugins/Calf"
+    "prepend-path": "/app/extensions/Plugins/Calf/bin",
+    "prepend-pkg-config-path": "/app/extensions/Plugins/Calf/lib/pkgconfig",
+    "prepend-ld-library-path": "/app/extensions/Plugins/Calf/lib",
+    "prefix": "/app/extensions/Plugins/Calf"
   },
   "cleanup": [
     "/lib/lv2",
@@ -26,15 +27,15 @@
         "ldflags": "-lpulse-simple -lpulse -lasound -ldbus-1 -lSDL2 -lreadline -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 -lglib-2.0 "
       },
       "config-opts": [
-        "--with-lv2-dir=/app/extensions/Lv2Plugins/Calf/lv2"
+        "--with-lv2-dir=/app/extensions/Plugins/Calf/lv2"
       ],
       "cleanup": [
         "*.la",
         "*.a"
       ],
       "post-install": [
-        "install -Dm644 --target-directory=${FLATPAK_DEST}/share/metainfo org.freedesktop.LinuxAudio.Lv2Plugins.Calf.metainfo.xml",
-        "appstream-compose --basename=org.freedesktop.LinuxAudio.Lv2Plugins.Calf --prefix=${FLATPAK_DEST} --origin=flatpak org.freedesktop.LinuxAudio.Lv2Plugins.Calf",
+        "install -Dm644 --target-directory=${FLATPAK_DEST}/share/metainfo org.freedesktop.LinuxAudio.Plugins.Calf.metainfo.xml",
+        "appstream-compose --basename=org.freedesktop.LinuxAudio.Plugins.Calf --prefix=${FLATPAK_DEST} --origin=flatpak org.freedesktop.LinuxAudio.Plugins.Calf",
         "install -Dm644 -t $FLATPAK_DEST/share/licenses/calf COPYING COPYING.GPL"
       ],
       "sources": [
@@ -45,7 +46,7 @@
         },
         {
           "type": "file",
-          "path": "org.freedesktop.LinuxAudio.Lv2Plugins.Calf.metainfo.xml"
+          "path": "org.freedesktop.LinuxAudio.Plugins.Calf.metainfo.xml"
         }
       ]
     }
