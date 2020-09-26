@@ -1,0 +1,47 @@
+{
+    "id": "org.freedesktop.LinuxAudio.Plugins.Stochas",
+    "runtime": "org.freedesktop.LinuxAudio.BaseExtension",
+    "sdk": "org.freedesktop.Sdk//19.08",
+    "runtime-version": "19.08",
+    "build-extension": true,
+    "appstream-compose": false,
+    "branch": "19.08",
+    "build-options": {
+        "prefix": "/app/extensions/Plugins/Stochas"
+    },
+    "modules": [
+        {
+            "name": "stochas",
+            "buildsystem": "cmake-ninja",
+            "config_opts": [
+            ],
+            "cleanup": [
+                "/bin",
+                "/lib",
+                "/include"
+            ],
+            "post_install": [
+                "install -d ${FLATPAK_DEST}/vst3",
+                "cp -r stochas_artefacts/VST3/*.vst3 ${FLATPAK_DEST}/vst3",
+                "strip ${FLATPAK_DEST}/vst3/*.vst3/Contents/*/*.so",
+                "install -Dm644 --target-directory=${FLATPAK_DEST}/share/metainfo org.freedesktop.LinuxAudio.Plugins.Stochas.metainfo.xml",
+                "appstream-compose --basename=org.freedesktop.LinuxAudio.Plugins.Stochas --prefix=${FLATPAK_DEST} --origin=flatpak org.freedesktop.LinuxAudio.Plugins.Stochas"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/surge-synthesizer/stochas.git",
+                    "tag": "v1.3.3"
+                },
+                {
+                    "type": "patch",
+                    "path": "stochas-no-jack.patch"
+                },
+                {
+                    "type": "file",
+                    "path": "org.freedesktop.LinuxAudio.Plugins.Stochas.metainfo.xml"
+                }
+            ]
+        }
+    ]
+}

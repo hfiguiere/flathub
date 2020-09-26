@@ -1,0 +1,11 @@
+--- stochas/CMakeLists.txt	2020-09-25 22:53:07.490967242 -0400
++++ stochas/CMakeLists.txt-new	2020-09-25 22:58:39.656085444 -0400
+@@ -139,7 +139,7 @@
+     JUCE_REPORT_APP_USAGE=0
+ 
+     # Some linux options
+-    JUCE_JACK=1
++    JUCE_JACK=0
+     JUCE_ALSA=1
+ )
+ 
