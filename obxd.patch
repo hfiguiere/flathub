@@ -1,0 +1,28 @@
+diff --git a/OB-Xd.jucer b/OB-Xd.jucer
+index 850cf80..341bdcb 100644
+--- a/OB-Xd.jucer
++++ b/OB-Xd.jucer
+@@ -179,7 +179,7 @@
+     <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+     <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+   </MODULES>
+-  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_WEB_BROWSER="0"/>
++  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_WEB_BROWSER="0" JUCE_VST3_CAN_REPLACE_VST2="0" />
+   <LIVE_SETTINGS>
+     <OSX/>
+     <WINDOWS/>
+diff --git a/Source/PluginEditor.h b/Source/PluginEditor.h
+index a8bb5c3..79bcee8 100755
+--- a/Source/PluginEditor.h
++++ b/Source/PluginEditor.h
+@@ -117,8 +117,8 @@ public:
+         
+     };*/
+     
+-    void nextProgram();
+-    void prevProgram();
++    void nextProgram() {};
++    void prevProgram() {};
+ private:
+ 	Knob* addKnob (int x, int y, int d, ObxdAudioProcessor& filter, int parameter, String name, float defval);
+ 	void placeLabel (int x, int y, String text);
