@@ -1,7 +1,7 @@
 OB-Xd
 =====
 
-This plugin is build with JUCE 6.0.1. Unfortunately Projucer needs to
+This plugin is build with JUCE 6.0.5. Unfortunately Projucer needs to
 be run to generate the Makefile and this can't be done in the flatpak
 build sandbox, for some reasone..
 

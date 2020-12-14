@@ -3,14 +3,14 @@
     <id>org.freedesktop.LinuxAudio.Plugins.OBXd</id>
     <extends>org.freedesktop.LinuxAudio.BaseExtension</extends>
     <name>OBXd</name>
-    <summary>OBXd synthesizer VST3</summary>
+    <summary>OB-Xd synthesizer VST3 plugin</summary>
+    <description>
+      <p>OB-Xd is a software synthesizer attempting to recreate the
+      sound of the Oberheim OB-X syntehsizer.</p>
+    </description>
     <project_license>GPL-3.0</project_license>
-    <metadata_license>
-        CC0-1.0
-    </metadata_license>
-    <update_contact>
-        CONTACT
-    </update_contact>
+    <metadata_license>CC0-1.0</metadata_license>
+    <update_contact>_hub_AT_figuiere.net_</update_contact>
     <url type="homepage">https://www.discodsp.com/obxd/</url>
     <releases>
         <release date="2020-12-13" version="2.2" />

@@ -20,6 +20,9 @@
             ],
             "cleanup": [],
             "post_install": [
+                "install -d ${FLATPAK_DEST}/vst3",
+                "cp -r Builds/LinuxMakefile/build/OB-Xd.vst3 ${FLATPAK_DEST}/vst3",
+                "cp -r Documents/discoDSP/OB-Xd ${FLATPAK_DEST}/vst3/OB-Xd.vst3/Contents",
                 "install -Dm644 --target-directory=${FLATPAK_DEST}/share/metainfo org.freedesktop.LinuxAudio.Plugins.OBXd.metainfo.xml",
                 "appstream-compose --basename=org.freedesktop.LinuxAudio.Plugins.OBXd --prefix=${FLATPAK_DEST} --origin=flatpak org.freedesktop.LinuxAudio.Plugins.OBXd",
                 "install -Dm644 -t ${FLATPAK_DEST}/share/licenses/obxd license.txt"

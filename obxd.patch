@@ -26,3 +26,16 @@ index a8bb5c3..79bcee8 100755
  private:
  	Knob* addKnob (int x, int y, int d, ObxdAudioProcessor& filter, int parameter, String name, float defval);
  	void placeLabel (int x, int y, String text);
+diff --git a/Source/PluginProcessor.cpp b/Source/PluginProcessor.cpp
+index 230d669..0497f65 100755
+--- a/Source/PluginProcessor.cpp
++++ b/Source/PluginProcessor.cpp
+@@ -616,7 +616,7 @@ File ObxdAudioProcessor::getCurrentBankFile() const
+ //==============================================================================
+ File ObxdAudioProcessor::getDocumentFolder() const
+ {
+-	File folder = File::getSpecialLocation(File::userDocumentsDirectory).getChildFile("discoDSP").getChildFile("OB-Xd");
++  File folder = File("/app/extensions/Plugins/OBXd/vst3/OB-Xd.vst3/Contents").getChildFile("OB-Xd");
+ /*
+     if (! folder.exists())
+     {
