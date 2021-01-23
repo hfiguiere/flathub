@@ -11,7 +11,7 @@ index ceb8d7f..d728187 100644
   <description>
    <p>
     SWAMI (Sampled Waveforms And Musical Instruments) is a collection
-@@ -23,12 +25,31 @@
+@@ -23,12 +25,42 @@
    </ul>
   </description>
   <screenshots>
@@ -41,6 +41,17 @@ index ceb8d7f..d728187 100644
 + <content_rating type="oars-1.1" />
 + ​<launchable type="desktop-id">swami.desktop</launchable>
 + <releases>
++   <release version="2.2.2" date="2021-01-23">
++     <url>https://github.com/swami/swami/releases/tag/v2.2.2</url>
++     <description>
++       <ul>
++         <li>address memory leaks (#35, #36, #40, #42)</li>
++         <li>usability enhancements (#47, #48, #50, #51)</li>
++         <li>fix a crash that could occur using a recent version of GObject (#59)</li>
++         <li>fix valid range of the chrous-depth knob</li>
++       </ul>
++     </description>
++   </release>
 +   <release version="2.2.1" date="2020-04-14">
 +     <url>https://github.com/swami/swami/releases/tag/v2.2.1</url>
 +   </release>

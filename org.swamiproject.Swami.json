@@ -1,7 +1,7 @@
 {
   "app-id": "org.swamiproject.Swami",
   "runtime": "org.freedesktop.Platform",
-  "runtime-version": "19.08",
+  "runtime-version": "20.08",
   "sdk": "org.freedesktop.Sdk",
   "command": "swami",
   "rename-desktop-file": "swami.desktop",
@@ -22,8 +22,7 @@
     /* Allow other instances to see lockfiles */
     "--env=TMPDIR=/var/tmp",
     /* On SuSE it seems to be necessary for sound to work */
-    "--env=ALSA_CONFIG_PATH=",
-    "--env=QT_AUTO_SCREEN_SCALE_FACTOR=1"
+    "--env=ALSA_CONFIG_PATH="
   ],
   "cleanup": [
     "/bin/python*",
@@ -98,8 +97,8 @@
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/swami/swami/archive/v2.2.1.tar.gz",
-          "sha256": "bc690e4967771622532bc1dd8c7709f714b7c7c423f7f794788acebfbc383f49"
+          "url": "https://github.com/swami/swami/archive/v2.2.2.tar.gz",
+          "sha256": "b3e3d5d8f1b4aab6f3d896a4c67c2beb3edf058ce1724e240bac6e6a486e4b9b"
         },
         {
           "type": "patch",
