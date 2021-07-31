@@ -1,0 +1,22 @@
+--- a/prebuilt/fetch-libraries.sh	2021-07-29 22:18:00.260347516 -0400
++++ b/prebuilt/fetch-libraries.sh	2021-07-29 22:18:05.681409572 -0400
+@@ -88,6 +88,9 @@
+ 				perl -MLWP::Simple -e "getstore('${URL}/${NAME}.tar.bz2', '${FETCH_DIR}/${NAME}.tar.bz2') == 200 or exit 1"
+ 			fi
+ 		fi
++	else
++		echo "Already fetched: ${NAME}"
++	fi
+ 
+ 		if [ ! -e "${FETCH_DIR}/${NAME}.tar.bz2" ]; then
+ 			echo "Failed to find library ${NAME} either remotely or locally"
+@@ -110,9 +113,6 @@
+ 			exit 1
+ 		fi
+ 
+-	else
+-		echo "Already fetched: ${NAME}"
+-	fi
+ }
+ 
+ if [ 0 -eq "$#" ]; then

@@ -1,0 +1,112 @@
+{
+    "id": "com.livecode.Livecode",
+    "runtime": "org.freedesktop.Platform",
+    "sdk": "org.freedesktop.Sdk//20.08",
+    "runtime-version": "20.08",
+    "command": "LiveCode-Community",
+    "sdk-extensions": [
+        "org.freedesktop.Sdk.Extension.openjdk11"
+    ],
+    "finish-args": [
+        "--share=ipc",
+        "--socket=x11",
+        "--filesystem=~/Toolset",
+        "--env=PATH=/usr/bin:/app/bin:/app/jre/bin",
+        "--env=JAVA_HOME=/app/jre",
+        "--env=JAVA=/app/jre/bin/java"
+    ],
+    "modules": [
+        {
+            "name": "openjdk",
+            "buildsystem": "simple",
+            "build-commands": [
+                "/usr/lib/sdk/openjdk11/install.sh"
+            ]
+        },
+        "shared-modules/python2.7/python-2.7.json",
+        "shared-modules/gtk2/gtk2.json",
+        {
+            "name": "livecode",
+            "buildsystem": "simple",
+            "build-commands": [
+                "make MODE=release",
+                "install -d /app/livecode",
+                "cp -r linux-*-bin/* /app/livecode",
+                "ln -sf /app/livecode/LiveCode-Community /app/bin",
+                "install -Dm644 Installer/application.desktop /app/share/applications/${FLATPAK_ID}.desktop",
+                "desktop-file-edit --set-name='LiveCode Community' --set-icon=${FLATPAK_ID} --set-key=Exec --set-value='LiveCode-Community %U' --set-key=StartupWMClass --set-value='livecodecommunity_9.6.2' /app/share/applications/${FLATPAK_ID}.desktop",
+                "install -Dm644 Installer/application.png /app/share/icons/hicolor/48x48/apps/${FLATPAK_ID}.png"
+            ],
+            "build-options": {
+                "env": {
+                    "JAVA_SDK": "/usr/lib/sdk/openjdk11/jvm/openjdk-11/"
+                }
+            },
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/livecode/livecode.git",
+                    "tag": "9.6.2",
+                    "commit": "99bcc09904e3567c697c7cb8303a6fecc5b90c33"
+                },
+                {
+                    "type": "file",
+                    "url": "https://downloads.livecode.com/prebuilts/Thirdparty-f7b36803faa8aeff88484601c05b75b8a76c38e7-linux-x86_64-PIC.tar.bz2",
+                    "sha256": "b7feb7397422680d689f1d8189b94f08cf0c9c09f1a4ef08dc94c5b13ab37a19",
+                    "only-arches": [ "x86_64" ],
+                    "dest": "prebuilt/fetched"
+                },
+                {
+                    "type": "file",
+                    "url": "https://downloads.livecode.com/prebuilts/OpenSSL-1.1.1g-linux-x86_64-PIC.tar.bz2",
+                    "sha256": "fd46e620ae0ba1488baaad32e4c918579e1a8752f0761e40012bfd58cc271350",
+                    "only-arches": [ "x86_64" ],
+                    "dest": "prebuilt/fetched"
+                },
+                {
+                    "type": "file",
+                    "url": "https://downloads.livecode.com/prebuilts/Curl-7.51.0-linux-x86_64-PIC.tar.bz2",
+                    "sha256": "f71c47641c3a3e346c87e1ecf58772d58c95016412a796703aa4c79998784ab1",
+                    "only-arches": [ "x86_64" ],
+                    "dest": "prebuilt/fetched"
+                },
+                {
+                    "type": "file",
+                    "url": "https://downloads.livecode.com/prebuilts/ICU-58.2-linux-x86_64-1-PIC.tar.bz2",
+                    "sha256": "604a9fa7ce80280582cf6c48d3fed924952d8de8c536a7961370c190277d5540",
+                    "only-arches": [ "x86_64" ],
+                    "dest": "prebuilt/fetched"
+                },
+                {
+                    "type": "file",
+                    "url": "https://downloads.livecode.com/prebuilts/CEF-74.1.19-linux-x86_64-gb62bacf.tar.bz2",
+                    "sha256": "0a7c86fb9210a97868667fa5ef4c1aec2d4a4ee9d58aeeb0b6373ac2326e3f85",
+                    "only-arches": [ "x86_64" ],
+                    "dest": "prebuilt/fetched"
+                },
+                {
+                    "type": "file",
+                    "url": "https://downloads.livecode.com/prebuilts/OpenSSL-1.1.1g-All-Universal-Headers-PIC.tar.bz2",
+                    "sha256": "b0f7305be44c46957a43294ca98b49ad4f349c2fa75506b289e292693b5817f5",
+                    "dest": "prebuilt/fetched"
+                },
+                {
+                    "type": "file",
+                    "url": "https://downloads.livecode.com/prebuilts/ICU-58.2-All-Universal-Headers-1-PIC.tar.bz2",
+                    "sha256": "7bbbbdc753a346cb7bff343fb10c5dc25d71964b935c10638d3f44b9e032885e",
+                    "dest": "prebuilt/fetched"
+                },
+                {
+                    "type": "file",
+                    "url": "https://downloads.livecode.com/prebuilts/ICU-58.2-All-Universal-Data-1-PIC.tar.bz2",
+                    "sha256": "6b892f84975fd8fbb25ca81af593e785f66cfe9ff33ecb0f3319662cedc0b50e",
+                    "dest": "prebuilt/fetched"
+                },
+                {
+                    "type": "patch",
+                    "path": "patches/livecode-prebuilt.patch"
+                }
+            ]
+        }
+    ]
+}
