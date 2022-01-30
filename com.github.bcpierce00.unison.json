@@ -1,0 +1,58 @@
+{
+    "app-id": "com.github.bcpierce00.unison",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "21.08",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "unison",
+    "finish-args": [
+        "--share=network",
+        "--share=ipc",
+        "--socket=wayland",
+        "--socket=fallback-x11"
+    ],
+    "modules": [
+        {
+            "name": "ocaml",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/ocaml/ocaml/archive/4.12.0.tar.gz",
+                    "sha256": "adc07a3995362403f3cb11085a86354de08e5a7f9eb3c09be7bbcc38a3a26744"
+                }
+            ]
+        },
+        {
+            "name": "opam",
+            "make-args": [
+                "lib-ext"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/ocaml/opam/releases/download/2.1.0/opam-full-2.1.0.tar.gz",
+                    "sha256": "6102131a9b65536b713efba7f5498acb3802ae15fec3171cc2c98427cfc3926f"
+                }
+            ]
+        },
+        {
+            "name": "unison",
+            "build-options": {
+                "cflags": "-O2 -g",
+                "cflags-override": true
+            },
+            "buildsystem": "simple",
+            "build-commands": [
+                "make -j$FLATPAK_BUILDER_N_JOB",
+                "install -Dm755 -t $FLATPAK_DEST/bin src/unison*"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/bcpierce00/unison.git",
+                    "tag": "v2.51.5",
+                    "commit": "3c7f38da6985839fc2639825edba8c6421f17e61"
+                }
+            ]
+        }
+    ]
+}
