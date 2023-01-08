@@ -1,0 +1,101 @@
+{
+    "id": "net.drobilla.Jalv",
+    "runtime": "org.kde.Platform",
+    "sdk": "org.kde.Sdk//5.15-22.08",
+    "runtime-version": "5.15-22.08",
+    "rename-desktop-file": "jalv.desktop",
+    "command": "jalv.gtk3",
+    "finish-args": [
+        "--socket=x11",
+        "--share=ipc",
+        "--device=dri",
+        "--filesystem=xdg-run/pipewire-0",
+        "--env=LV2_PATH=/app/extensions/Plugins/lv2:/app/lib/lv2"
+    ],
+    "add-extensions": {
+        "org.freedesktop.LinuxAudio.Plugins": {
+            "directory": "extensions/Plugins",
+            "version": "22.08",
+            "add-ld-path": "lib",
+            "merge-dirs": "lv2",
+            "subdirectories": true,
+            "no-autodownload": true
+        }
+    },
+    "modules": [
+        {
+            "name": "lv2",
+            "buildsystem": "meson",
+            "cleanup": [
+                "/include",
+                "/lib/pkgconfig",
+                "/share"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://lv2plug.in/spec/lv2-1.18.8.tar.xz",
+                    "sha256": "b404cf14f776af40ca43808b45f4219dfa850a4f47aa33f89fa96ae719e174c8"
+                },
+                {
+                    "type": "patch",
+                    "path": "shared-modules/linux-audio/lv2-build.patch"
+                }
+            ],
+            "post-install": [
+                "install -Dm644 -t $FLATPAK_DEST/share/licenses/lv2 ../COPYING",
+                "ln -sf lv2.pc $FLATPAK_DEST/lib/pkgconfig/lv2core.pc"
+            ]
+        },
+        "shared-modules/linux-audio/lilv.json",
+        {
+            "name": "suil",
+            "buildsystem": "meson",
+            "cleanup": [
+                "/bin",
+                "/include",
+                "/lib/pkgconfig",
+                "/share"
+            ],
+            "post-install": [
+                "install -Dm644 ../COPYING -t $FLATPAK_DEST/share/licenses/suil"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://download.drobilla.net/suil-0.10.18.tar.xz",
+                    "sha256": "84ada094fbe17ad3e765379002f3a0c7149b43b020235e4d7fa41432f206f85f"
+                }
+            ]
+        },
+        {
+            "name": "jalv",
+            "build-options": {
+                "cxxflags": "-fPIC",
+                "ldflags": "-fPIC"
+            },
+            "buildsystem": "meson",
+            "post-install": [
+                "install -d /app/extensions/Plugins",
+                "desktop-file-edit --set-icon=${FLATPAK_ID} /app/share/applications/jalv.desktop",
+                "install -Dm644 ../net.drobilla.Jalv.metainfo.xml -t /app/share/metainfo",
+                "install -Dm644 ../net.drobilla.Jalv.svg -t /app/share/icons/hicolor/scalable/apps/"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.com/drobilla/jalv.git",
+                    "tag": "v1.6.8"
+                },
+                {
+                    "type": "file",
+                    "path": "net.drobilla.Jalv.svg"
+                },
+                {
+                    "type": "file",
+                    "path": "net.drobilla.Jalv.metainfo.xml"
+                }
+            ]
+        }
+    ]
+}
