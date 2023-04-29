@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component type="desktop">
+  <!--Created with jdAppStreamEdit 6.0-->
+  <id>ca.wordtsar.WordTsar</id>
+  <name>WordTsar</name>
+  <summary>WordTsar is a Wordstar 7.0D document mode clone</summary>
+  <developer_name></developer_name>
+  <launchable type="desktop-id">ca.wordtsar.WordTsar.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-1.0</project_license>
+  <description>
+    <p>Wordstar for the 21st Century. WordTsar is a Wordstar 7.0D document mode clone. It loads Wordstar 4, Wordstar 7, RTF (partial), and DOCX(partial) files, and saves in Wordstar 7 and RTF format.</p>
+    <p>WordTsar is currently Alpha. What does Alpha mean? Alpha means the program works, but is feature incomplete. Please do not send reports on non-implemented features. Feel free to discuss them in the forum though.</p>
+  </description>
+  <url type="homepage">http://wordtsar.ca/</url>
+  <content_rating type="oars-1.1"/>
+  <screenshots>
+    <screenshot>
+      <image>http://wordtsar.ca/wp-content/uploads/2021/05/Screenshot_20210512_183203.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release date="2023-03-26" version="0.3.179" />
+  </releases>
+</component>

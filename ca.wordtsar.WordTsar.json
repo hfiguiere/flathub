@@ -7,9 +7,9 @@
     "rename-icon": "wordtsar",
     "rename-desktop-file": "WordTsar.desktop",
     "finish-args": [
-        "--socket=wayland",
-        "--socket=fallback-x11",
-        "--share=ipc"
+        "--socket=x11",
+        "--share=ipc",
+        "--device=dri"
     ],
     "modules": [
         {
@@ -19,13 +19,18 @@
             "post-install": [
                 "install -Dm755 WordTsar -t /app/bin",
                 "install -Dm644 ../linuxdeploy/wordtsar.png -t /app/share/icons/hicolor/128x128/apps",
-                "install -Dm644 ../linuxdeploy/WordTsar.desktop -t /app/share/applications"
+                "install -Dm644 ../linuxdeploy/WordTsar.desktop -t /app/share/applications",
+                "install -Dm644 ../ca.wordtsar.WordTsar.metainfo.xml -t /app/share/metainfo"
             ],
             "sources": [
                 {
                     "type": "archive",
                     "url": "https://downloads.sourceforge.net/project/wordtsar/Releases/WordTsar-0.3.719/WordTsar-0.3.719-src.zip",
                     "sha256": "b42e134b209a8a2f94f07d69b1a5f302c9620435dc14d654a3c245904c0f9178"
+                },
+                {
+                    "type": "file",
+                    "path": "ca.wordtsar.WordTsar.metainfo.xml"
                 }
             ]
         }
