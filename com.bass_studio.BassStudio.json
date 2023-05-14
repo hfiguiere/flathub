@@ -49,6 +49,14 @@
                     "dest": "bass-studio"
                 },
                 {
+                    "type": "patch",
+                    "path": "patches/aarch64-build.patch",
+                    "options": [
+                        "-d",
+                        "daw-deps"
+                    ]
+                },
+                {
                     "type": "file",
                     "path": "com.bass_studio.BassStudio.appdata.xml"
                 },
