@@ -23,12 +23,18 @@
             "buildsystem": "simple",
             "build-options": {
                 "cxxflags": "-Wno-error=restrict",
-                "prepend-pkg-config-path": "/run/build/bass-studio/build-deps/install/lib/pkgconfig"
+                "arch": {
+                    "aarch64": {
+                        "env": {
+                            "CFG_OPTIMIZE": "-DPROJECT_CFG_OPTIMIZE=OFF"
+                        }
+                    }
+                }
             },
             "build-commands": [
                 "mkdir build-deps",
                 "cd build-deps && python ../daw-deps/build.py",
-                "cd bass-studio && cmake -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DPROJECT_DEPS_PATH=../daw-deps -S. -Bbuild --install-prefix=/app && ninja -C build",
+                "cd bass-studio && cmake -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo $CFG_OPTIMIZE -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DPROJECT_DEPS_PATH=../daw-deps -S. -Bbuild --install-prefix=/app && ninja -C build",
                 "install -Dm755 bass-studio/build/dist/DAW -t /app/bin",
                 "cp -R bass-studio/build/dist/res /app/bin/res",
                 "install -Dm644 bass-studio/res/svg/daw-logo.svg /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg",
