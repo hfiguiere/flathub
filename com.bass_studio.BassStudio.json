@@ -7,6 +7,12 @@
         "org.freedesktop.Sdk.Extension.llvm14"
     ],
     "command": "DAW",
+    "finish-args": [
+        "--share=ipc",
+        "--socket=x11",
+        "--device=dri",
+        "--filesystem=home"
+    ],
     "build-options":{
         "append-path": "/usr/lib/sdk/llvm14/bin",
         "prepend-ld-library-path": "/usr/lib/sdk/llvm14/lib"
