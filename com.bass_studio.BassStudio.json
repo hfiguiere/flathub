@@ -38,9 +38,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://github.com/nidefawl/daw-deps.git",
-                    "commit": "1cc09ed3e37772b74aa1f9d0c1c4d658c98d02ea",
-                    "disable-shallow-clone": true,
+                    "url": "https://github.com/hfiguiere/daw-deps.git",
+                    "commit": "c5b59fb2c2b4b199ec877e49937f355c30d61c78",
                     "dest": "daw-deps"
                 },
                 {
