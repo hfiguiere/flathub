@@ -63,6 +63,14 @@
                     ]
                 },
                 {
+                    "type": "patch",
+                    "path": "patches/bassstudio-glm.patch",
+                    "options": [
+                        "-d",
+                        "bass-studio"
+                    ]
+                },
+                {
                     "type": "file",
                     "path": "com.bass_studio.BassStudio.appdata.xml"
                 },

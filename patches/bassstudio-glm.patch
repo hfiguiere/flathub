@@ -1,0 +1,18 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 69e7968f..4f153e71 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -230,7 +230,12 @@ endif()
+ 
+ target_compile_definitions(${LINK_TARGET} PUBLIC GLFW_INCLUDE_NONE=1 USE_WIN32_EXC_HOOKS BUILD_DAW_HOST=1)
+ #target_compile_definitions(${LINK_TARGET} PUBLIC PA_ENABLE_DEBUG_OUTPUT=1)
+-target_compile_definitions(${LINK_TARGET} PUBLIC GLM_FORCE_SSE42=1 VST_FORCE_DEPRECATED=0 MUPARSER_STATIC=1 LIBARCHIVE_STATIC=1)
++target_compile_definitions(${LINK_TARGET} PUBLIC VST_FORCE_DEPRECATED=0 MUPARSER_STATIC=1 LIBARCHIVE_STATIC=1)
++if (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
++  target_compile_definitions(${LINK_TARGET} PUBLIC GLM_FORCE_SSE42=1)
++elseif (CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
++  target_compile_definitions(${LINK_TARGET} PUBLIC GLM_FORCE_NEON=1)
++endif()
+ if (PROJECT_BUILD_WITH_SANITIZER)
+   target_compile_definitions(${LINK_TARGET} PUBLIC BUILD_USE_SANITIZER=1)
+ endif()
