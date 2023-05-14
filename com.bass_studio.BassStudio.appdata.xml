@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component type="desktop">
+  <!--Created with jdAppStreamEdit 6.0-->
+  <id>com.bass_studio.BassStudio</id>
+  <name>Bass Studio</name>
+  <summary>Digital Audio Workstation</summary>
+  <developer_name></developer_name>
+  <launchable type="desktop-id">com.bass_studio.BassStudio.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>Bass Studio is a DAW which supports VST2 and CLAP plugins.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main UI</caption>
+      <image type="source">https://i.imgur.com/gxTUcoa.jpeg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Main UI 2</caption>
+      <image type="source">https://i.imgur.com/ezsmeET.jpeg</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.5.15" date="2023-05-09" type="stable"/>
+  </releases>
+  <url type="homepage">http://bass-studio.com/</url>
+  <url type="bugtracker">https://github.com/nidefawl/bass-studio/issues</url>
+  <url type="vcs-browser">https://github.com/nidefawl/bass-studio/</url>
+  <content_rating type="oars-1.1"/>
+</component>

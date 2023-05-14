@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Bass Studio
+Comment=Digital Audio Workstation
+Type=Application
+Exec=DAW
+Icon=com.bass_studio.BassStudio
+Categories=AudioVideo;Audio;

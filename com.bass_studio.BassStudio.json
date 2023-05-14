@@ -1,0 +1,57 @@
+{
+    "id": "com.bass_studio.BassStudio",
+    "runtime": "org.freedesktop.Platform",
+    "sdk": "org.freedesktop.Sdk//22.08",
+    "runtime-version": "22.08",
+    "sdk-extensions" : [
+        "org.freedesktop.Sdk.Extension.llvm14"
+    ],
+    "command": "DAW",
+    "build-options":{
+        "append-path": "/usr/lib/sdk/llvm14/bin",
+        "prepend-ld-library-path": "/usr/lib/sdk/llvm14/lib"
+    },
+    "modules": [
+        {
+            "name": "bass-studio",
+            "buildsystem": "simple",
+            "build-options": {
+                "cxxflags": "-Wno-error=restrict",
+                "prepend-pkg-config-path": "/run/build/bass-studio/build-deps/install/lib/pkgconfig"
+            },
+            "build-commands": [
+                "mkdir build-deps",
+                "cd build-deps && python ../daw-deps/build.py",
+                "cd bass-studio && cmake -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DPROJECT_DEPS_PATH=../daw-deps -S. -Bbuild --install-prefix=/app && ninja -C build",
+                "install -Dm755 bass-studio/build/dist/DAW -t /app/bin",
+                "cp -R bass-studio/build/dist/res /app/bin/res",
+                "install -Dm644 bass-studio/res/svg/daw-logo.svg /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg",
+                "install -Dm644 com.bass_studio.BassStudio.desktop -t /app/share/applications",
+                "install -Dm644 com.bass_studio.BassStudio.appdata.xml -t /app/share/appdata"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/nidefawl/daw-deps.git",
+                    "commit": "1cc09ed3e37772b74aa1f9d0c1c4d658c98d02ea",
+                    "disable-shallow-clone": true,
+                    "dest": "daw-deps"
+                },
+                {
+                    "type": "git",
+                    "url": "https://github.com/nidefawl/bass-studio.git",
+                    "tag": "v5.0.15",
+                    "dest": "bass-studio"
+                },
+                {
+                    "type": "file",
+                    "path": "com.bass_studio.BassStudio.appdata.xml"
+                },
+                {
+                    "type": "file",
+                    "path": "com.bass_studio.BassStudio.desktop"
+                }
+            ]
+        }
+    ]
+}
