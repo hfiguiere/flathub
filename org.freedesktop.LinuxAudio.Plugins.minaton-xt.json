@@ -1,0 +1,49 @@
+{
+    "id": "org.freedesktop.LinuxAudio.Plugins.minaton-xt",
+    "runtime": "org.freedesktop.LinuxAudio.BaseExtension",
+    "runtime-version": "stable",
+    "sdk": "org.freedesktop.Sdk//23.08",
+    "build-extension": true,
+    "appstream-compose": false,
+    "branch": "23.08",
+    "build-options": {
+        "prefix": "/app/extensions/Plugins/minaton-xt"
+    },
+    "modules": [
+        {
+            "name": "minaton",
+            "buildsystem": "cmake-ninja",
+            "build-options": {
+            },
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=Release"
+            ],
+            "no-make-install": true,
+            "post-install": [
+                "install -Dm755 bin/minaton.clap -t ${FLATPAK_DEST}/clap",
+                "install -Dm755 bin/minaton-vst2.so -t ${FLATPAK_DEST}/vst",
+                "install -d ${FLATPAK_DEST}/lv2",
+                "cp -R bin/minaton.lv2 ${FLATPAK_DEST}/lv2",
+                "install -d ${FLATPAK_DEST}/vst3",
+                "cp -R bin/minaton.vst3 ${FLATPAK_DEST}/vst3",
+                "install -Dm644 org.freedesktop.LinuxAudio.Plugins.minaton-xt.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo",
+                "appstream-compose --basename=${FLATPAK_ID} --prefix=${FLATPAK_DEST} --origin=flatpak ${FLATPAK_ID}"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/AnClark/Minaton-XT.git",
+                    "tag": "0.2.0"
+                },
+                {
+                    "type": "patch",
+                    "path": "patches/minaton-nostatic.patch"
+                },
+                {
+                    "type": "file",
+                    "path": "org.freedesktop.LinuxAudio.Plugins.minaton-xt.metainfo.xml"
+                }
+            ]
+        }
+    ]
+}

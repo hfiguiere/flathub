@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c0140a5..7e29597 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -74,7 +74,7 @@ make_directory (${GENERATED_WAVES_DIR})
+ 
+ # Binary-to-C converter from Dear ImGui
+ add_executable (binary_to_compressed_c utils/binary_to_compressed_c.cpp)
+-target_link_options (binary_to_compressed_c PRIVATE -static)
++target_link_options (binary_to_compressed_c PRIVATE)
+ 
+ set (WAVES_DIR ${PROJECT_SOURCE_DIR}/src/waves)
+ set (GENERATED_WAVE_HEADER ${GENERATED_WAVES_DIR}/minaton_waves.hpp)

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component type="addon">
+    <id>org.freedesktop.LinuxAudio.Plugins.minaton-xt</id>
+    <extends>org.freedesktop.LinuxAudio.BaseExtension</extends>
+    <name>minaton-xt</name>
+    <summary>Minaton LV2/CLAP/VST/VST3 synthesize plugin</summary>
+    <project_license>GPL-3.0-or-later</project_license>
+    <metadata_license>CC0-1.0</metadata_license>
+    <update_contact>_hub_AT_figuiere_net_</update_contact>
+    <url type="homepage">https://github.com/AnClark/Minaton-XT</url>
+    <releases>
+        <release version="0.2.0" date="2023-09-03" />
+    </releases>
+</component>
