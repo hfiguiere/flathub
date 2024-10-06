@@ -1,17 +1,23 @@
 diff --git a/swami.appdata.xml b/swami.appdata.xml
-index ceb8d7f..d728187 100644
+index ceb8d7f..2f4a964 100644
 --- a/swami.appdata.xml
 +++ b/swami.appdata.xml
-@@ -4,6 +4,8 @@
-  <id type="desktop">swami.desktop</id>
+@@ -1,9 +1,12 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!-- Copyright 1999-2016 Element Green <element@elementsofsound.org> -->
+-<application>
+- <id type="desktop">swami.desktop</id>
++<component type="desktop">
++ <id>swami.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0</project_license>
++ <developer_name>Swami Developers</developer_name>
 + <name>Swami</name>
 + <summary>Instrument editor application</summary>
   <description>
    <p>
     SWAMI (Sampled Waveforms And Musical Instruments) is a collection
-@@ -23,12 +25,42 @@
+@@ -23,12 +26,41 @@
    </ul>
   </description>
   <screenshots>
@@ -37,7 +43,10 @@ index ceb8d7f..d728187 100644
 +   </screenshot>
   </screenshots>
   <url type="homepage">http://www.swamiproject.org</url>
-  <updatecontact>element@elementsofsound.org</updatecontact>
+- <updatecontact>element@elementsofsound.org</updatecontact>
+-</application>
+-
++ <update_contact>element@elementsofsound.org</update_contact>
 + <content_rating type="oars-1.1" />
 + ​<launchable type="desktop-id">swami.desktop</launchable>
 + <releases>
@@ -56,5 +65,4 @@ index ceb8d7f..d728187 100644
 +     <url>https://github.com/swami/swami/releases/tag/v2.2.1</url>
 +   </release>
 + </releases>
- </application>
- 
++</component>

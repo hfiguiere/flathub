@@ -1,110 +1,104 @@
 {
-  "app-id": "org.swamiproject.Swami",
-  "runtime": "org.freedesktop.Platform",
-  "runtime-version": "20.08",
-  "sdk": "org.freedesktop.Sdk",
-  "command": "swami",
-  "rename-desktop-file": "swami.desktop",
-  "rename-appdata-file": "swami.appdata.xml",
-  "rename-icon": "swami",
-  "finish-args": [
-    /* X11 + XShm access */
-    "--share=ipc",
-    "--socket=x11",
-    /* Wayland */
-    "--socket=wayland",
-    /* Note playback */
-    "--socket=pulseaudio",
-    /* MIDI */
-    "--device=all",
-    /* Allow loading, saving files from anywhere (portals don’t work yet) */
-    "--filesystem=home",
-    /* Allow other instances to see lockfiles */
-    "--env=TMPDIR=/var/tmp",
-    /* On SuSE it seems to be necessary for sound to work */
-    "--env=ALSA_CONFIG_PATH="
-  ],
-  "cleanup": [
-    "/bin/python*",
-    "/bin/pip*",
-    "/lib/pkgconfig",
-    "/lib/*.so"
-  ],
-  "modules": [
-    "shared-modules/gtk2/gtk2.json",
-    "shared-modules/linux-audio/fftw3f.json",
-    "shared-modules/linux-audio/libinstpatch.json",
-    "shared-modules/linux-audio/fluidsynth2.json",
-    {
-      "name": "libart",
-      "cleanup": [
-        "/bin",
-        "*.so",
-        "*.a",
-        "*.la"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://download.gnome.org/sources/libart_lgpl/2.3/libart_lgpl-2.3.21.tar.bz2",
-          "sha256": "fdc11e74c10fc9ffe4188537e2b370c0abacca7d89021d4d303afdf7fd7476fa"
-        }
-      ]
-    },
-    {
-      "name": "libgnomecanvas2",
-      "config-opts": [
-        "--disable-static"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://download.gnome.org/sources/libgnomecanvas/2.30/libgnomecanvas-2.30.3.tar.bz2",
-          "sha256": "859b78e08489fce4d5c15c676fec1cd79782f115f516e8ad8bed6abcb8dedd40"
-        }
-      ]
-    },
-    {
-      "name": "libglade2",
-      "config-opts": [
-        "--disable-gtk-doc-html",
-        "--disable-static"
-      ],
-      "cleanup": [
-        "/bin",
-        "/doc",
+    "app-id": "org.swamiproject.Swami",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "24.08",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "swami",
+    "rename-desktop-file": "swami.desktop",
+    "rename-appdata-file": "swami.appdata.xml",
+    "rename-icon": "swami",
+    "finish-args": [
+        "--share=ipc",
+        "--socket=x11",
+        "--socket=pulseaudio",
+        "--filesystem=home",
+        "--env=TMPDIR=/var/tmp",
+        "--env=ALSA_CONFIG_PATH="
+    ],
+    "cleanup": [
+        "/bin/python*",
+        "/bin/pip*",
+        "/lib/pkgconfig",
         "*.so"
-      ],
-      "sources": [
+    ],
+    "modules": [
+        "shared-modules/gtk2/gtk2.json",
+        "shared-modules/linux-audio/fftw3f.json",
+        "shared-modules/linux-audio/libinstpatch.json",
+        "shared-modules/linux-audio/fluidsynth2.json",
         {
-          "type": "archive",
-          "url": "https://download.gnome.org/sources/libglade/2.6/libglade-2.6.4.tar.bz2",
-          "sha256": "64361e7647839d36ed8336d992fd210d3e8139882269bed47dc4674980165dec"
-        }
-      ]
-    },
-    {
-      "name": "swami",
-      "buildsystem": "cmake-ninja",
-      "cleanup": [
-        "/lib/*.so",
-        "*.a",
-        "*.la"
-      ],
-      "post-install": [
-        "install swami.appdata.xml -D -t /app/share/metainfo"
-      ],
-      "sources": [
-        {
-          "type": "archive",
-          "url": "https://github.com/swami/swami/archive/v2.2.2.tar.gz",
-          "sha256": "b3e3d5d8f1b4aab6f3d896a4c67c2beb3edf058ce1724e240bac6e6a486e4b9b"
+            "name": "libart",
+            "config-opts": [
+                "--disable-static"
+            ],
+            "cleanup": [
+                "/bin",
+                "*.so",
+                "*.a",
+                "*.la"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/libart_lgpl/2.3/libart_lgpl-2.3.21.tar.bz2",
+                    "sha256": "fdc11e74c10fc9ffe4188537e2b370c0abacca7d89021d4d303afdf7fd7476fa"
+                }
+            ]
         },
         {
-          "type": "patch",
-          "path": "swami-appdata.diff"
+            "name": "libgnomecanvas2",
+            "config-opts": [
+                "--disable-static"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/libgnomecanvas/2.30/libgnomecanvas-2.30.3.tar.bz2",
+                    "sha256": "859b78e08489fce4d5c15c676fec1cd79782f115f516e8ad8bed6abcb8dedd40"
+                }
+            ]
+        },
+        {
+            "name": "libglade2",
+            "config-opts": [
+                "--disable-gtk-doc-html",
+                "--disable-static"
+            ],
+            "cleanup": [
+                "/bin",
+                "/doc",
+                "*.so"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://download.gnome.org/sources/libglade/2.6/libglade-2.6.4.tar.bz2",
+                    "sha256": "64361e7647839d36ed8336d992fd210d3e8139882269bed47dc4674980165dec"
+                }
+            ]
+        },
+        {
+            "name": "swami",
+            "buildsystem": "cmake-ninja",
+            "cleanup": [
+                "/lib/*.so",
+                "*.a",
+                "*.la"
+            ],
+            "post-install": [
+                "install swami.appdata.xml -D -t /app/share/metainfo"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/swami/swami/archive/v2.2.2.tar.gz",
+                    "sha256": "b3e3d5d8f1b4aab6f3d896a4c67c2beb3edf058ce1724e240bac6e6a486e4b9b"
+                },
+                {
+                    "type": "patch",
+                    "path": "swami-appdata.diff"
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
