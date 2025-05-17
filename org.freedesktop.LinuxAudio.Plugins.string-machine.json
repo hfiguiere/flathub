@@ -1,0 +1,68 @@
+{
+    "id": "org.freedesktop.LinuxAudio.Plugins.string-machine",
+    "runtime": "org.freedesktop.LinuxAudio.BaseExtension",
+    "sdk": "org.freedesktop.Sdk//24.08",
+    "runtime-version": "stable",
+    "build-extension": true,
+    "branch": "24.08",
+    "build-options": {
+        "prefix": "/app/extensions/Plugins/string-machine"
+    },
+    "modules": [
+        {
+            "name" : "boost",
+            "buildsystem" : "simple",
+            "cleanup" : [
+                "/include",
+                "/lib"
+            ],
+            "build-commands" : [
+                "./bootstrap.sh --with-libraries=atomic",
+                "./b2 install variant=release link=shared runtime-link=shared --prefix=${FLATPAK_DEST} -j $FLATPAK_BUILDER_N_JOBS"
+            ],
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "https://downloads.sourceforge.net/project/boost/boost/1.68.0/boost_1_68_0.tar.bz2",
+                    "sha256" : "7f6130bc3cf65f56a618888ce9d5ea704fa10b462be126ad053e80e553d6d8b7"
+                }
+            ]
+        },
+        {
+            "name": "string-machine",
+            "buildsystem": "simple",
+            "build-options": {
+                "cxxflags": "-I${FLATPAK_DEST}/include",
+                "env": {
+                    "PREFIX": "${FLATPAK_DEST}"
+                }
+            },
+            "build-commands": [
+                "make"
+            ],
+            "post-install": [
+                "install -d ${FLATPAK_DEST}/lv2",
+                "cp -R bin/*.lv2 ${FLATPAK_DEST}/lv2",
+                "strip ${FLATPAK_DEST}/lv2/*.lv2/*.so",
+                "install -Dm755 bin/string-machine-vst.so -t ${FLATPAK_DEST}/vst",
+                "strip ${FLATPAK_DEST}/vst/*.so",
+                "install -Dm644 org.freedesktop.LinuxAudio.Plugins.string-machine.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/jpcima/string-machine/releases/download/v0.1.0/string-machine-0.1.0.tar.gz",
+                    "sha256": "5b0d2eb2185199c1de6c7c35700a2caafbc6ba564529a2e7614c15c3aceacc6f"
+                },
+                {
+                    "type": "patch",
+                    "path": "patches/string-machine-build.patch"
+                },
+                {
+                    "type": "file",
+                    "path": "org.freedesktop.LinuxAudio.Plugins.string-machine.metainfo.xml"
+                }
+            ]
+        }
+    ]
+}
