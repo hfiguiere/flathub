@@ -1,0 +1,375 @@
+{
+    "app-id": "photos.ansel.ansel",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "49",
+    "sdk": "org.gnome.Sdk",
+    "command": "ansel",
+    "rename-icon": "ansel",
+    "copy-icon": true,
+    "finish-args": [
+        "--share=ipc",
+        "--share=network",
+        "--socket=x11",
+        "--filesystem=xdg-pictures",
+        "--talk-name=org.freedesktop.secrets",
+        "--system-talk-name=org.freedesktop.ColorManager",
+        "--talk-name=org.gtk.vfs.*",
+        "--filesystem=xdg-run/gvfs",
+        "--filesystem=xdg-run/gvfsd",
+        "--device=all"
+    ],
+    "cleanup": [
+        "/include",
+        "/bin/exiv2*",
+        "/bin/*lensfun*",
+        "/bin/metacopy",
+        "/bin/pathtest",
+        "/doc",
+        "/lib/cmake",
+        "/lib/pkgconfig",
+        "/lib/girepository-*",
+        "/man",
+        "/share/doc",
+        "/share/gir-*",
+        "/share/gtk-doc",
+        "/share/man",
+        "/share/vala",
+        "*.a",
+        "*.la"
+    ],
+    "modules": [
+        "shared-modules/lua5.4/lua-5.4.json",
+        {
+            "name": "lensfun",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+                "-DBUILD_FOR_SSE=0",
+                "-DBUILD_FOR_SSE2=0",
+                "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
+            ],
+            "build-options": {
+                "arch": {
+                    "x86_64": {
+                        "config-opts": [
+                            "-DBUILD_FOR_SSE=1",
+                            "-DBUILD_FOR_SSE2=1"
+                        ]
+                    }
+                }
+            },
+            "cleanup": [
+                "/lib/python3.*"
+            ],
+            "post-install": [
+                "pip3 install --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} lxml --ignore-installed --no-build-isolation",
+                "python3 lensfun_convert_db.py $PWD lensfun-git/data/db",
+                "rm -rf /app/share/lensfun/version_1/*",
+                "tar xvf db/version_1.tar -C /app/share/lensfun/version_1"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/lensfun/lensfun/archive/refs/tags/v0.3.4.tar.gz",
+                    "sha256": "dafb39c08ef24a0e2abd00d05d7341b1bf1f0c38bfcd5a4c69cf5f0ecb6db112"
+                },
+                {
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/72/14/60bf9ba4b5c6d001af3b93be17a442deea8b1ce0eab2911de839cb0dfd3f/lxml-5.0.2.tar.gz",
+                    "sha256": "6399703c40ba53e2c3b72fdb56cb908d2b83c08082ecf17de839b27e68d1e598"
+                },
+                {
+                    "type": "file",
+                    "path": "lensfun_convert_db.py"
+                },
+                {
+                    "type": "git",
+                    "dest": "lensfun-git",
+                    "url": "https://github.com/lensfun/lensfun.git",
+                    "commit": "9b46201746f466614efe573cbc5c3d292dd5633d"
+                }
+            ]
+        },
+        {
+            "name": "exiv2",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DEXIV2_BUILD_DOC:BOOL=OFF",
+                "-DEXIV2_BUILD_EXIV2_COMMAND=OFF",
+                "-DEXIV2_ENABLE_BMFF=ON",
+                "-DEXIV2_BUILD_SAMPLES=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/Exiv2/exiv2/releases/download/v0.27.7/exiv2-0.27.7-Source.tar.gz",
+                    "sha256": "70629dc27e3d4dd5c3fa91afbea93166d338b1de284e6a4c44bbf9dcfe7bbc6d"
+                }
+            ]
+        },
+        "shared-modules/intltool/intltool-0.51.json",
+        {
+            "name": "pugixml",
+            "buildsystem": "cmake-ninja",
+            "build-options": {
+                "cflags": "-fPIC",
+                "cxxflags": "-fPIC"
+            },
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/zeux/pugixml/releases/download/v1.15/pugixml-1.15.tar.gz",
+                    "sha256": "655ade57fa703fb421c2eb9a0113b5064bddb145d415dd1f88c79353d90d511a"
+                }
+            ]
+        },
+        {
+            "name": "libgusb",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dtests=false",
+                "-Ddocs=false"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/hughsie/libgusb/releases/download/0.4.9/libgusb-0.4.9.tar.xz",
+                    "sha256": "9df5ef301d6a4b361002aa52cce1165a87a89744055879bdbab31e7e86f1e846"
+                }
+            ]
+        },
+        {
+            "name": "colord",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Ddaemon=false",
+                "-Dsession_example=false",
+                "-Dbash_completion=false",
+                "-Dudev_rules=false",
+                "-Dsystemd=false",
+                "-Dargyllcms_sensor=false",
+                "-Dsane=false",
+                "-Dtests=false",
+                "-Dinstalled_tests=false",
+                "-Dman=false",
+                "-Ddocs=false"
+            ],
+            "cleanup": [
+                "/share/metainfo"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://www.freedesktop.org/software/colord/releases/colord-1.4.8.tar.xz",
+                    "sha256": "21500bd68975312a7f0f3ce6019d9f75f42aacaa75ca7115ec720b5445406896"
+                }
+            ]
+        },
+        {
+            "name": "colord-gtk",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dman=false",
+                "-Ddocs=false"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://www.freedesktop.org/software/colord/releases/colord-gtk-0.3.1.tar.xz",
+                    "sha256": "c176b889b75630a17f4e3d7ef24c09a3e12368e633496087459c8b53ac3a122d"
+                }
+            ]
+        },
+        "shared-modules/libsoup/libsoup-2.4.json",
+        {
+            "name": "osm-gps-map",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/nzjrs/osm-gps-map/releases/download/1.2.0/osm-gps-map-1.2.0.tar.gz",
+                    "sha256": "ddec11449f37b5dffb4bca134d024623897c6140af1f9981a8acc512dbf6a7a5"
+                }
+            ]
+        },
+        {
+            "name": "openexr",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DOPENEXR_BUILD_TOOLS=OFF",
+                "-DOPENEXR_INSTALL_TOOLS=OFF"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.4.3.tar.gz",
+                    "sha256": "06494da42eb91c47265ffbad02d0c73cf65d8ad7f24683b801f34d842c4ecb6d"
+                }
+            ],
+            "cleanup": [
+                "/bin",
+                "/include",
+                "/lib/*.la",
+                "/lib/pkgconfig",
+                "/share/aclocal"
+            ],
+            "modules": [
+                                {
+                    "name": "imath",
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "https://github.com/AcademySoftwareFoundation/Imath/archive/refs/tags/v3.2.2.tar.gz",
+                            "sha256": "b4275d83fb95521510e389b8d13af10298ed5bed1c8e13efd961d91b1105e462",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 223366,
+                                "stable-only": true,
+                                "url-template": "https://github.com/AcademySoftwareFoundation/Imath/archive/refs/tags/v$version.tar.gz"
+                            }
+                        }
+                    ],
+                    "buildsystem": "cmake-ninja",
+                    "builddir": true,
+                    "config-opts": [
+                        "-DBUILD_TESTING=OFF"
+                    ],
+                    "cleanup": [
+                        "/include",
+                        "/lib/pkgconfig"
+                    ]
+                },
+                {
+                    "name": "libdeflate",
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "https://github.com/ebiggers/libdeflate/archive/refs/tags/v1.25.zip",
+                            "sha256": "5ce391d1d09ff2f6b21af492fa72bd693e416a4a682ec48c04f91e5c0e16f383",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 242778,
+                                "stable-only": true,
+                                "url-template": "https://github.com/ebiggers/libdeflate/archive/refs/tags/v$version.zip"
+                            }
+                        }
+                    ],
+                    "buildsystem": "cmake-ninja",
+                    "builddir": true,
+                    "config-opts": [
+                        "-DLIBDEFLATE_BUILD_STATIC_LIB=OFF",
+                        "-DLIBDEFLATE_GZIP_SUPPORT=OFF",
+                        "-DLIBDEFLATE_BUILD_GZIP=OFF"
+                    ],
+                    "cleanup": [
+                        "/include",
+                        "/lib/pkgconfig"
+                    ]
+                },
+                {
+                    "name": "openjph",
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "https://github.com/aous72/OpenJPH/archive/refs/tags/0.25.3.tar.gz",
+                            "sha256": "815b0d345daf3bbad72f3930d4f6c831643dcb2b734d8bb44d871d68db12f4d2",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 375199,
+                                "stable-only": true,
+                                "url-template": "https://github.com/aous72/OpenJPH/archive/refs/tags/$version.tar.gz"
+                            }
+                        }
+                    ],
+                    "buildsystem": "cmake-ninja",
+                    "builddir": true,
+                    "config-opts": [
+                        "-DOJPH_ENABLE_TIFF_SUPPORT=OFF",
+                        "-DOJPH_BUILD_EXECUTABLES=OFF"
+                    ],
+                    "cleanup": [
+                        "/include",
+                        "/lib/pkgconfig"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "graphicsmagick",
+            "builddir": true,
+            "config-opts": [
+                "--enable-shared"
+            ],
+            "cleanup": [
+                "/bin/GraphicsMagick*config"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick/1.3.46/GraphicsMagick-1.3.46.tar.xz",
+                    "sha256": "c7c706a505e9c6c3764156bb94a0c9644d79131785df15a89c9f8721d1abd061"
+                }
+            ]
+        },
+        {
+            "name": "gmic",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DBUILD_LIB_STATIC=OFF",
+                "-DBUILD_CLI=OFF",
+                "-DBUILD_MAN=OFF",
+                "-DBUILD_BASH_COMPLETION=OFF"
+            ],
+            "cleanup": [
+                "/lib/*.so"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gmic.eu/files/source/gmic_3.6.3.tar.gz",
+                    "sha256": "45304f179f2200ba527c819bd911bd6a85c4a4999740c730c7ccdd164ce240ac"
+                }
+            ]
+        },
+        {
+            "name": "jasper",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DJAS_ENABLE_OPENGL=ON",
+                "-DJAS_ENABLE_LIBJPEG=ON",
+                "-DCMAKE_SKIP_RPATH=ON",
+                "-DALLOW_IN_SOURCE_BUILD=ON",
+                "-DCMAKE_BUILD_TYPE=Release"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/jasper-software/jasper/archive/refs/tags/version-4.0.0.tar.gz",
+                    "sha256": "977c4c2e4210f4e37313cd2232d99e73d57ab561917b3c060bcdd5e83a0a13f1"
+                }
+            ]
+        },
+        {
+            "name": "ansel",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DBINARY_PACKAGE_BUILD=1",
+                "-DTESTBUILD_OPENCL_PROGRAMS=OFF"
+            ],
+            "builddir": true,
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/aurelienpierreeng/ansel.git",
+                    "commit": "845679e472b40f092d574d1bcb71e9e95d3366da"
+                },
+                {
+                    "type": "patch",
+                    "path": "patches/ansel-rename.patch"
+                }
+            ]
+        }
+    ]
+}
