@@ -1,0 +1,31 @@
+diff --git a/Makefile.am b/Makefile.am
+index 3c82b0b..86227f3 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -190,7 +190,7 @@ plugin_LDFLAGS = -avoid-version -module -disable-static
+ 
+ if BUILD_DSSI
+ 
+-dssidir = $(libdir)/dssi
++dssidir = $(prefix)/dssi
+ 
+ # This links directly to .libs/libcore.a to avoid libtool's --whole-archive behaviour
+ # which is inappropriate for these targets - we don't want to include gui code in the
+@@ -222,7 +222,7 @@ endif
+ 
+ if BUILD_LV2
+ 
+-amsynth_lv2dir = $(libdir)/lv2/amsynth.lv2
++amsynth_lv2dir = $(prefix)/lv2/amsynth.lv2
+ 
+ # This links directly to .libs/libcore.a to avoid libtool's --whole-archive behaviour
+ # which is inappropriate for these targets - we don't want to include gui code in the
+@@ -254,7 +254,7 @@ endif
+ 
+ if BUILD_VST
+ 
+-vstdir=$(libdir)/vst
++vstdir=$(prefix)/vst
+ noinst_LTLIBRARIES += amsynth_vst.la
+ amsynth_vst_la_LDFLAGS = $(plugin_LDFLAGS) -rpath $(vstdir) -export-symbols-regex "VSTPluginMain|^main"
+ amsynth_vst_la_LIBADD = libcore.la

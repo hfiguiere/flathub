@@ -1,0 +1,89 @@
+{
+    "id": "io.github.amsynth.amsynth",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "25.08",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "amsynth",
+    "rename-desktop-file": "amsynth.desktop",
+    "rename-icon": "amsynth",
+    "rename-appdata-file": "amsynth.appdata.xml",
+    "finish-args": [
+        "--socket=x11",
+        "--device=dri",
+        "--share=ipc",
+        "--socket=pulseaudio",
+        "--filesystem=xdg-run/pipewire-0"
+    ],
+    "add-extensions": {
+        "org.freedesktop.LinuxAudio.Plugins.amsynth": {
+            "directory": "extensions/Plugins/amsynth",
+            "version": "25.08",
+            "add-ld-path": "lib",
+            "bundle": true,
+            "subdirectories": true,
+            "autodelete": false
+        }
+    },
+    "build-options": {
+	"prefix": "/app/extensions/Plugins/amsynth",
+	"append-path": "/app/extensions/Plugins/amsynth/bin",
+        "env": {
+            "PLUGINS_DIR": "/app/extensions/Plugins/amsynth",
+            "PLUGINS_ID": "org.freedesktop.LinuxAudio.Plugins.amsynth"
+        }
+    },
+    "cleanup": [
+        "/lib/lv2"
+    ],
+    "modules": [
+        "shared-modules/intltool/intltool-0.51.json",
+	"shared-modules/linux-audio/dssi.json",
+	"shared-modules/linux-audio/liblo.json",
+        {
+            "name": "amsynth",
+	    "build-options": {
+		"append-pkg-config-path": "/app/extensions/Plugins/amsynth/lib/pkgconfig"
+	    },
+	    "config-opts": [
+		"--with-dssi"
+	    ],
+            "post-install": [
+                "strip ${PLUGINS_DIR}/lv2/*.lv2/*.so",
+                "strip ${PLUGINS_DIR}/vst/*.so",
+		"install -d /app/bin",
+		"mv ${PLUGINS_DIR}/bin/amsynth /app/bin",
+		"install -d /app/share ${PLUGINS_DIR}/share/metainfo",
+		"desktop-file-edit --set-key=Exec --set-value=amsynth ${PLUGINS_DIR}/share/applications/amsynth.desktop",
+		"mv ${PLUGINS_DIR}/share/appdata /app/share",
+		"mv /app/share/appdata/lv2-amsynth-plugin.metainfo.xml ${PLUGINS_DIR}/share/metainfo/${PLUGINS_ID}.metainfo.xml",
+		"mv ${PLUGINS_DIR}/share/applications /app/share",
+		"mv ${PLUGINS_DIR}/share/icons /app/share",
+		"appstreamcli compose --components=${PLUGINS_ID} --prefix=/ --origin=${PLUGINS_ID} --result-root=${PLUGINS_DIR} --data-dir=${PLUGINS_DIR}/share/app-info/xmls ${PLUGINS_DIR}"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/amsynth/amsynth/releases/download/release-2.0.0/amsynth-2.0.0.tar.gz",
+                    "sha256": "e6f6643166399a4df51f8d05f41bdbefbfa619f50b69601c7420c71874170a53"
+                },
+                {
+                    "type": "patch",
+                    "paths": [
+			"patches/amsynth-dirs.patch",
+			"patches/amsynth-appdata.patch"
+		    ]
+		},
+                {
+                    "type": "shell",
+                    "commands": [
+                        "autoreconf -si"
+                    ]
+                },
+                {
+                    "type": "file",
+                    "path": "org.freedesktop.LinuxAudio.Plugins.amsynth.metainfo.xml"
+                }
+            ]
+        }
+    ]
+}

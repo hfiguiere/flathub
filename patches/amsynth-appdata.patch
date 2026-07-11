@@ -1,0 +1,87 @@
+diff --git a/data/amsynth.appdata.xml.in b/data/amsynth.appdata.xml.in
+index 026b524..f5859c3 100644
+--- a/data/amsynth.appdata.xml.in
++++ b/data/amsynth.appdata.xml.in
+@@ -6,6 +6,11 @@
+   <project_license>GPL-2.0+</project_license>
+   <_summary>Analog modelling (a.k.a virtual analog) software synthesizer</_summary>
+   <url type="homepage">https://github.com/amsynth/amsynth</url>
++  <launchable type="desktop-id">amsynth.desktop</launchable>
++  <content_rating type="oars-1.1" />
++  <developer id="io.github.amsynth">
++    <name>Nick Dowell</name>
++  </developer>
+   <description>
+     <_p>amsynth is an analog modelling (a.k.a virtual analog) software synthesizer.
+ It mimics the operation of early analog subtractive synthesizers with
+@@ -32,7 +37,7 @@ The aim is to make it easy to create and modify sounds.</_p>
+   </description>
+   <screenshots>
+     <screenshot type="default">
+-      <image height="462" width="616">http://amsynth.github.io/images/ScreenShot.png</image>
++      <image height="462" width="616">https://amsynth.github.io/images/ScreenShot.png</image>
+       <caption>AMSYNTH Main Window</caption>
+     </screenshot>
+   </screenshots>
+@@ -41,4 +46,7 @@ The aim is to make it easy to create and modify sounds.</_p>
+   </provides>
+   <update_contact>nick_AT_nickdowell.com</update_contact>
+   <translation type="gettext">amsynth</translation>
++  <releases>
++    <release version="2.0.0" date="2026-07-11" />
++  </releases>
+ </component>
+diff --git a/data/lv2-amsynth-plugin.metainfo.xml.in b/data/lv2-amsynth-plugin.metainfo.xml.in
+index 1171fbe..3f20d56 100644
+--- a/data/lv2-amsynth-plugin.metainfo.xml.in
++++ b/data/lv2-amsynth-plugin.metainfo.xml.in
+@@ -1,11 +1,43 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <component type="addon">
+-  <id>lv2-amsynth-plugin</id>
+-  <extends>amsynth.desktop</extends>
+-  <_name>LV2 plugin</_name>
+-  <_summary>Plugin for the LV2 audio standard</_summary>
++  <id>org.freedesktop.LinuxAudio.Plugins.amsynth</id>
++  <extends>io.github.amsynth.amsynth</extends>
++  <_name>Analog Modelling SYNTHesizer DSSI/LV2/VST</_name>
++  <_summary>Analog modelling (a.k.a virtual analog) software synthesizer DSSI/LV2/VST plugins</_summary>
+   <metadata_license>CC0-1.0</metadata_license>
+   <project_license>GPL-2.0</project_license>
+-  <translation type="gettext">amsynth</translation>  
+-  <updatecontact>nobrakal@gmail.com</updatecontact>
++  <translation type="gettext">amsynth</translation>
++  <url type="homepage">https://github.com/amsynth/amsynth</url>
++  <content_rating type="oars-1.1" />
++  <developer id="io.github.amsynth">
++    <name>Nick Dowell</name>
++  </developer>
++  <description>
++    <_p>amsynth is an analog modelling (a.k.a virtual analog) software synthesizer.
++It mimics the operation of early analog subtractive synthesizers with
++classic oscillator waveforms, envelopes, filter, modulation and effects.
++The aim is to make it easy to create and modify sounds.</_p>
++    <_p>Features:</_p>
++    <ul>
++      <_li>Dual oscillators (sine / saw / square / noise) with hard sync</_li>
++      <_li>12/24 dB/oct resonant filter (low-pass / high-pass / band-pass / notch)</_li>
++      <_li>Mono / poly / legato keyboard modes</_li>
++      <_li>Dual ADSR envelope generators (filter &amp; amplitude)</_li>
++      <_li>LFO which can modulate the oscillators, filter, and amplitude</_li>
++      <_li>Distortion and reverb</_li>
++      <_li>Hundreds of presets</_li>
++    </ul>
++
++    <_p>There are currently several different ways to run amsynth:</_p>
++    <ul>
++      <_li>Stand-alone application using JACK, ALSA or OSS</_li>
++      <_li>DSSI plug-in</_li>
++      <_li>LV2 plug-in</_li>
++      <_li>VST plug-in</_li>
++    </ul>
++  </description>
++  <update_contact>nobrakal@gmail.com</update_contact>
++  <releases>
++    <release version="2.0.0" date="2026-07-11" />
++  </releases>
+ </component>
